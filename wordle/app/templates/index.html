@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle RL Playground</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+    <!-- Top bar: checkpoint selector -->
+    <div class="top-bar">
+        <h1>Wordle RL</h1>
+        <div class="checkpoint-controls">
+            <select id="checkpoint-select">
+                <option value="">Loading...</option>
+            </select>
+            <button class="btn" id="switch-btn" onclick="switchCheckpoint()">Switch</button>
+            <span class="status-dot" id="status-dot" title="Server status"></span>
+        </div>
+    </div>
+
+    <!-- Game area -->
+    <div class="game-area">
+        <div class="game-controls">
+            <button class="btn primary" onclick="newGame()">New Game</button>
+            <button class="btn" id="turn-btn" onclick="nextTurn()" disabled>Next Turn</button>
+        </div>
+
+        <div class="game-message" id="game-message"></div>
+
+        <div id="board" class="board">
+            <!-- 6 rows x 5 tiles rendered by JS -->
+        </div>
+
+        <!-- Collapsible model response -->
+        <div class="response-panel">
+            <div class="response-toggle" id="response-toggle" onclick="toggleResponse()">
+                &#9654; Show model response
+            </div>
+            <div class="response-content" id="response-text">(no response yet)</div>
+        </div>
+    </div>
+
+    <!-- Training chart -->
+    <div class="chart-section">
+        <h2>Training Progress</h2>
+        <div class="chart-container">
+            <canvas id="metrics-chart"></canvas>
+        </div>
+    </div>
+
+    <script src="/static/game.js"></script>
+</body>
+</html>
