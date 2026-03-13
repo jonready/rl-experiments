@@ -14,6 +14,7 @@ STATE_FILE = os.path.join(os.path.dirname(__file__), ".pod_state.json")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 IMAGE_NAME = "ghcr.io/jonready/rl-experiments:latest"
+TEMPLATE_ID = "bxkjd14rf4"
 
 
 def save_state(state: dict):
@@ -107,7 +108,7 @@ def runpod_launch(gpu_type: str, gpu_count: int, resume: bool = False):
     env_items = ", ".join(f'{{ key: "{k}", value: "{v}" }}' for k, v in env_vars.items())
 
     print(f"Creating RunPod spot pod: {gpu_count}x {gpu_type} @ ${spot_price:.2f}/gpu/hr...")
-    print(f"Image: {IMAGE_NAME}")
+    print(f"Template: {TEMPLATE_ID} ({IMAGE_NAME})")
     mutation = f"""
     mutation {{
       podRentInterruptable(
@@ -115,17 +116,12 @@ def runpod_launch(gpu_type: str, gpu_count: int, resume: bool = False):
           bidPerGpu: {spot_price}
           cloudType: ALL
           gpuCount: {gpu_count}
-          volumeInGb: 50
-          containerDiskInGb: 50
           minVcpuCount: 2
           minMemoryInGb: 15
           gpuTypeId: "{gpu_type}"
           name: "rl-training"
-          imageName: "{IMAGE_NAME}"
-          dockerArgs: ""
+          templateId: "{TEMPLATE_ID}"
           startSsh: true
-          ports: "22/tcp"
-          volumeMountPath: "/workspace"
           env: [{env_items}]
         }}
       ) {{
