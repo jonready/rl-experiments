@@ -73,7 +73,7 @@ def runpod_setup_registry():
 
     print("Registering GHCR credentials with RunPod...")
     runpod.create_container_registry_auth(
-        name="ghcr",
+        name="ghcr.io",
         username="jonready",
         password=ghcr_pat,
     )
